@@ -16,6 +16,11 @@ def getTransitionMatrix(x=0,y=0):
 candidate0=getRtMatrix(0)
 candidate1=getRtMatrix(3.14/4)
 candidate2=getRtMatrix(3.14/2)
+# offsetMatrices=np.array([
+#     getRtMatrix(-3.14/4,0,0)@getRtMatrix(0,0,0),
+#     getRtMatrix(3.14/4,0,0)@getRtMatrix(0,-1,-1),
+#     getRtMatrix(-3.14/4,0,0)@getRtMatrix(0,-2,0),
+# ])
 offsetMatrices=np.array([
     getRtMatrix(0,0,0),
     getRtMatrix(0,-1,-1),
