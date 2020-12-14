@@ -16,16 +16,16 @@ def getTransitionMatrix(x=0,y=0):
 candidate0=getRtMatrix(0)
 candidate1=getRtMatrix(3.14/4)
 candidate2=getRtMatrix(3.14/2)
-# offsetMatrices=np.array([
-#     getRtMatrix(-3.14/4,0,0)@getRtMatrix(0,0,0),
-#     getRtMatrix(3.14/4,0,0)@getRtMatrix(0,-1,-1),
-#     getRtMatrix(-3.14/4,0,0)@getRtMatrix(0,-2,0),
-# ])
 offsetMatrices=np.array([
-    getRtMatrix(0,0,0),
-    getRtMatrix(0,-1,-1),
-    getRtMatrix(0,-2,0),
+    getRtMatrix(-3.14/4,0,0)@getRtMatrix(0,0,0),
+    getRtMatrix(3.14/4,0,0)@getRtMatrix(0,-1,-1),
+    getRtMatrix(-3.14/4,0,0)@getRtMatrix(0,-2,0),
 ])
+# offsetMatrices=np.array([
+#     getRtMatrix(0,0,0),
+#     getRtMatrix(0,-1,-1),
+#     getRtMatrix(0,-2,0),
+# ])
 B,invB=[],[]
 for i in range(3):
     B.append(offsetMatrices[i])
@@ -42,15 +42,15 @@ def updateGraph():
     img=np.zeros(imgsize).astype(np.uint8)
     ori = np.array([imgsize[1] // 2, imgsize[0] // 2], dtype=np.int)
     img = cv2.circle(img, tuple((ori).astype(int).tolist()), 4, 255)
-    img[imgsize[0] // 2,::3]=255
-    img[::3,imgsize[1] // 2]=255
-    parents=np.eye(3)
+    img[imgsize[0] // 2,::15]=255
+    img[::15,imgsize[1] // 2]=255
+    parents=Rt=getRtMatrix(0,transitionOflines[0],transitionOflines[1])
     G=[]
     newlines=np.zeros(lines.shape)
     for i in range(3):
-        tx,ty=0,0
-        if(i==0):tx,ty=transitionOflines
-        Rt=getRtMatrix(degreeOfLines[i],tx,ty)
+        #tx,ty=0,0
+        #if(i==0):tx,ty=transitionOflines
+        Rt=getRtMatrix(degreeOfLines[i],0,0)
         parents=parents@invB[i]@Rt@B[i]
         G.append(parents)
         newlines[i]=(parents@lines[i].T).T.copy()
