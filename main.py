@@ -1,25 +1,18 @@
 import cv2
 import numpy as np
+from utils import *
 
 lines=np.array([[[0,0,1],[1,1,1]],
                 [[1,1,1],[2,0,1]],
                 [[2,0,1],[3,1,1]]])
-def getRtMatrix(theta,x=0,y=0):
-    return np.array([[np.cos(theta), -np.sin(theta),x],
-                     [np.sin(theta), np.cos(theta),y],
-                     [0,0,1]])
-def getTransitionMatrix(x=0,y=0):
-    return np.array([[1, 0,x],[0, 1,y],[0,0,1]])
+
 
 
 #offset matrix from world space to object space
-candidate0=getRtMatrix(0)
-candidate1=getRtMatrix(3.14/4)
-candidate2=getRtMatrix(3.14/2)
 offsetMatrices=np.array([
-    getRtMatrix(-3.14/4,0,0)@getRtMatrix(0,0,0),
-    getRtMatrix(3.14/4,0,0)@getRtMatrix(0,-1,-1),
-    getRtMatrix(-3.14/4,0,0)@getRtMatrix(0,-2,0),
+    getRtMatrix2D(-3.14/4,0,0)@getRtMatrix2D(0,0,0),
+    getRtMatrix2D(3.14/4,0,0)@getRtMatrix2D(0,-1,-1),
+    getRtMatrix2D(-3.14/4,0,0)@getRtMatrix2D(0,-2,0),
 ])
 # offsetMatrices=np.array([
 #     getRtMatrix(0,0,0),
@@ -44,13 +37,13 @@ def updateGraph():
     img = cv2.circle(img, tuple((ori).astype(int).tolist()), 4, 255)
     img[imgsize[0] // 2,::15]=255
     img[::15,imgsize[1] // 2]=255
-    parents=Rt=getRtMatrix(0,transitionOflines[0],transitionOflines[1])
+    parents=getRtMatrix2D(0,transitionOflines[0],transitionOflines[1])
     G=[]
     newlines=np.zeros(lines.shape)
     for i in range(3):
         #tx,ty=0,0
         #if(i==0):tx,ty=transitionOflines
-        Rt=getRtMatrix(degreeOfLines[i],0,0)
+        Rt=getRtMatrix2D(degreeOfLines[i],0,0)
         parents=parents@invB[i]@Rt@B[i]
         G.append(parents)
         newlines[i]=(parents@lines[i].T).T.copy()
