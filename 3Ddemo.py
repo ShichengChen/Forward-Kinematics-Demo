@@ -11,18 +11,18 @@ from mpl_toolkits.mplot3d import Axes3D
 
 lines=np.array([[0,0,0,1],
                 [1,1,0,1],[2,2,0,1],[3,3,0,1],
-                [0,1,0,1],[1,2,0,1],[2,3,0,1]]).astype(np.float32)
+                [1,1,1,1],[2,2,1,1],[3,3,1,1]]).astype(np.float32)
 
 
 
 
 offsetMatrices=np.array([
-    AxisRotationMatrix(3.14/4,[0,0,1])@getTransitionMatrix3D(0,0,0),
-    AxisRotationMatrix(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[1][0],-lines[1][1],0),
-    AxisRotationMatrix(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[2][0],-lines[2][1],0),
-    AxisRotationMatrix(3.14/4,[0,0,1])@getTransitionMatrix3D(0,0,0),
-    AxisRotationMatrix(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[4][0],-lines[4][1],0),
-    AxisRotationMatrix(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[5][0],-lines[5][1],0),
+    AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(0,0,0),
+    AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[1][0],-lines[1][1],0),
+    AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[2][0],-lines[2][1],0),
+    AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(0,0,0),
+    AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[4][0],-lines[4][1],0),
+    AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[5][0],-lines[5][1],0),
 ])
 #offset matrix from world space to object space
 
@@ -92,7 +92,7 @@ def updateGraph(_):
     for i,v0 in enumerate(paramsidx):
         local=np.eye(4).astype(np.float32)
         for j,v1 in enumerate(v0):
-            local=local@AxisRotationMatrix(params[v1],Axislist[i][j])
+            local=local@AxisRotMat(params[v1],Axislist[i][j])
         p=G[fa[i]]
         g=p@invB[i]@local@B[i]
         G.append(g)

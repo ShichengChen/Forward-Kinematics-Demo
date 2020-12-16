@@ -18,7 +18,7 @@ def getInhomogeneousLine(lines:np.ndarray):
 def getTransitionMatrix3D(x=0,y=0,z=0):
     return np.array([[1, 0,0,x],[0, 1,0,y],[0, 0,1,z],[0,0,0,1]])
 
-def AxisRotationMatrix(angles,rotation_axis):
+def AxisRotMat(angles,rotation_axis):
     ''' rotation matrix from rotation around axis
         see https://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
          [[cos+self.xx*(1-cos), self.xy*(1-cos)-self.z*sin, self.xz*(1-cos)+self.y*sin, 0.0],
@@ -47,7 +47,7 @@ def AxisRotationMatrix(angles,rotation_axis):
     return rot_mats
 
 def getRotationMatrix3D(thetax,thetay,thetaz):
-    rx=AxisRotationMatrix(thetax,[1,0,0])
-    ry=AxisRotationMatrix(thetay,[0,1,0])
-    rz=AxisRotationMatrix(thetaz,[0,0,1])
+    rx=AxisRotMat(thetax,[1,0,0])
+    ry=AxisRotMat(thetay,[0,1,0])
+    rz=AxisRotMat(thetaz,[0,0,1])
     return rx@ry@rz
