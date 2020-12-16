@@ -40,6 +40,8 @@ plt.xlim(-8, 8)
 plt.ylim(-8, 8)
 plt.xticks(np.arange(-8,9))
 plt.yticks(np.arange(-8,9))
+ax.axhline(y=0, color='k')
+ax.axvline(x=0, color='k')
 ax.grid()
 #ax.margins(x=0)
 #plt.show()
@@ -48,8 +50,8 @@ sliders = []
 names=['l0 R','l1 R','l2 R','l0 T x','l0 T y']
 
 for idx in range(5):
-    ax = plt.axes([0.05, 0.05 + 0.16 * idx, 0.4, 0.15])
-    s = Slider(ax, names[idx], -math.pi, math.pi,valinit=0)
+    ax = plt.axes([0.05, 0.05 + 1/(len(names)+1) * idx, 0.4, 1/(len(names)+2)])
+    s = Slider(ax, names[idx], -math.pi*2, math.pi*2,valinit=0)
     sliders.append(s)
 
 def updateGraph(_):
