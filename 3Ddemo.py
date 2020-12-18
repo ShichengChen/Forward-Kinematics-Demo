@@ -15,7 +15,7 @@ lines=np.array([[0,0,0,1],
 
 
 
-
+#offset matrix from world space to object space
 offsetMatrices=np.array([
     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(0,0,0),
     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[1][0],-lines[1][1],0),
@@ -24,7 +24,19 @@ offsetMatrices=np.array([
     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[4][0],-lines[4][1],0),
     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(-lines[5][0],-lines[5][1],0),
 ])
-#offset matrix from world space to object space
+# offsetMatrices=np.array([
+#     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(0,0,0),
+#     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D((-lines[1][0]-lines[2][0])/2,
+#                                                                                 (-lines[1][1]-lines[2][1])/2,0),
+#     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D((-lines[2][0]-lines[3][0])/2,
+#                                                                                 (-lines[2][1]-lines[3][1])/2,0),
+#     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D(0,0,0),
+#     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D((-lines[4][0]-lines[5][0])/2,
+#                                                                                 (-lines[4][1]-lines[5][1])/2,0),
+#     AxisRotMat(3.14/2,[0,1,0])@AxisRotMat(3.14/4,[0,0,1])@getTransitionMatrix3D((-lines[5][0]-lines[6][0])/2,
+#                                                                                 (-lines[5][1]-lines[6][1])/2,0),
+# ])#wrong, joint should be in original
+
 
 
 B,invB=[],[]
@@ -99,7 +111,9 @@ def updateGraph(_):
         print(G[-1])
         newl[i+1]=g@lines[i+1]
 
-    graph.set_data_3d(plotline(newl)[:,0],plotline(newl)[:,1],plotline(newl)[:,2])
+    #graph.set_data_3d(plotline(newl)[:,0],plotline(newl)[:,1],plotline(newl)[:,2])
+    graph.set_data(plotline(newl)[:,0],plotline(newl)[:,1])
+    graph.set_3d_properties(plotline(newl)[:,2])
 
     fig.canvas.draw()
 

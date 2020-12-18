@@ -17,6 +17,11 @@ offsetMatrices=np.array([
     getRtMatrix2D(3.14/4,0,0)@getRtMatrix2D(0,-1,-1),
     getRtMatrix2D(-3.14/4,0,0)@getRtMatrix2D(0,-2,0),
 ])
+# offsetMatrices=np.array([
+#     getRtMatrix2D(-3.14/4,0,0)@getRtMatrix2D(-0.5,-0.5,0),
+#     getRtMatrix2D(3.14/4,0,0)@getRtMatrix2D(-0.5,-1.5,-1),
+#     getRtMatrix2D(-3.14/4,0,0)@getRtMatrix2D(-0.5,-2.5,0),
+# ])#wrong, joint should be in original
 #offset matrix from world space to object space
 # offsetMatrices=np.array([
 #     getRtMatrix(0,0,0),
