@@ -18,6 +18,16 @@ def getInhomogeneousLine(lines:np.ndarray):
 def getTransitionMatrix3D(x=0,y=0,z=0):
     return np.array([[1, 0,0,x],[0, 1,0,y],[0, 0,1,z],[0,0,0,1]])
 
+# def getRotationBetweenTwoVector(a,b):
+#     u=a/np.linalg.norm(a)
+#     v=b/np.linalg.norm(b)
+#     def reflection(A,n):
+#         return A-2*n@(n@A)/np.sum(n*n)
+#     S=reflection(np.eye(3).astype(float),u+v)
+#     R=reflection(S,v)
+#     return R
+# todo: test the function
+
 def AxisRotMat(angles,rotation_axis):
     ''' rotation matrix from rotation around axis
         see https://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
