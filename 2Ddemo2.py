@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
 import math
 
-lines=np.array([[0,0,1],
+lines=np.array([[0.3,0.2,1],
                 [1,0,1],
                 [3,0,1],
                 [3.5,0,1]])
@@ -45,10 +45,18 @@ def updateGraph(_):
         if(idx<3):degreeOfLines[idx] = s.val
         else:transitionOflines[idx-3]=s.val
 
-    parents=getRtMatrix2D(degreeOfLines[0],lines[0,0],lines[0,1])
-    G=[parents]
-    newlines=np.zeros(lines.shape)
-    newlines[1]=parents@lines[1]
+    newlines = np.zeros(lines.shape)
+
+    ptransition=getRtMatrix2D(0,transitionOflines[0],transitionOflines[1])
+    G = [ptransition]
+    newlines[0] = ptransition@lines[0]
+
+    pRotation=ptransition@getRtMatrix2D(degreeOfLines[0],lines[0,0],lines[0,1])
+    G.append(pRotation)
+
+    t1 = lines[1] - lines[0]
+    t1[-1]=1
+    newlines[1]=pRotation@t1
     for i in range(1,3):
         t=lines[i]-lines[i-1]
         t1=lines[i+1]-lines[i]
